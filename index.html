@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RCT - Mina El Descanso</title>
+
+    <!-- FUENTES -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- ESTILOS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- =========================== -->
+    <!-- NAV PRINCIPAL / ENCABEZADO -->
+    <!-- =========================== -->
+    <header class="top-header">
+        <div class="logo-area">
+            <img src="logo.png" alt="Logo Drummond" class="logo-img">
+            <span class="rct-title">RCT</span>
+            <span class="mine-title">Mina El Descanso</span>
+        </div>
+
+        <div class="top-options">
+            <button class="lang-btn" onclick="switchLang('es')">ES</button>
+            <button class="lang-btn" onclick="switchLang('en')">EN</button>
+
+            <button class="historial-btn" id="btnHistorial">Historial</button>
+        </div>
+    </header>
+
+    <!-- =========================== -->
+    <!-- DASHBOARD SUPERIOR -->
+    <!-- =========================== -->
+    <section class="dashboard-container">
+
+        <div class="dash-card green">
+            <h3>Operativos</h3>
+            <p id="dashOperativos">0</p>
+        </div>
+
+        <div class="dash-card red">
+            <h3>Down</h3>
+            <p id="dashDown">0</p>
+        </div>
+
+        <div class="dash-card blue">
+            <h3>Hallazgos</h3>
+            <p id="dashHallazgos">0</p>
+        </div>
+
+        <div class="dash-card yellow">
+            <h3>Disponibilidad %</h3>
+            <p id="dashDisp">0%</p>
+        </div>
+
+    </section>
+
+    <!-- =========================== -->
+    <!-- MENÚ DE SECCIONES -->
+    <!-- =========================== -->
+    <nav class="tabs">
+        <button class="tab active" data-target="tab-encabezado">Encabezado</button>
+        <button class="tab" data-target="tab-equipos">Equipos</button>
+        <button class="tab" data-target="tab-seguridad">Seguridad</button>
+        <button class="tab" data-target="tab-observ">Observaciones</button>
+        <button class="tab" data-target="tab-resumen">Resumen</button>
+    </nav>
+
+    <!-- =========================== -->
+    <!-- SECCIONES / CONTENEDORES -->
+    <!-- =========================== -->
+
+    <!-- 1. ENCABEZADO -->
+    <section id="tab-encabezado" class="tab-content active">
+        <h2>Encabezado</h2>
+
+        <div class="form-grid">
+            <div>
+                <label>Fecha</label>
+                <input type="date" id="fecha">
+            </div>
+
+            <div>
+                <label>Grupo</label>
+                <select id="grupo">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                </select>
+            </div>
+
+            <div>
+                <label>Turno</label>
+                <select id="turno">
+                    <option value="Día">Día</option>
+                    <option value="Noche">Noche</option>
+                </select>
+            </div>
+
+            <div>
+                <label>Responsable RCT</label>
+                <input type="text" id="responsable">
+            </div>
+
+            <div>
+                <label>Supervisores</label>
+                <input type="text" id="supervisores">
+            </div>
+
+            <div>
+                <label>Equipos en taller</label>
+                <input type="number" id="equiposTaller" min="0" value="0">
+            </div>
+
+            <div>
+                <label>Camiones x operador (1ra hr)</label>
+                <input type="number" id="cxoperador" min="0" value="0">
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. EQUIPOS -->
+    <section id="tab-equipos" class="tab-content">
+        <h2>Equipos</h2>
+
+        <!-- Buses -->
+        <h3>Hora llegada buses a bahías</h3>
+        <div class="equipos-line">
+            <input placeholder="Bahía" id="busBahia">
+            <input type="time" id="busHora">
+            <button class="btn-add" onclick="agregarBus()">+ Agregar</button>
+        </div>
+
+        <table class="table-list" id="listaBuses">
+            <thead>
+                <tr><th>Bahía</th><th>Hora</th><th></th></tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+
+        <br>
+
+        <!-- Equipos varados -->
+        <h3>Equipos varados en campo</h3>
+        <div class="equipos-line">
+            <input placeholder="Camión / Equipo" id="eqCamion">
+            <input placeholder="Ubicación" id="eqUbicacion">
+            <input placeholder="Razón" id="eqRazon">
+            <button class="btn-add" onclick="agregarEquipo()">+ Agregar</button>
+        </div>
+
+        <table class="table-list" id="listaEquipos">
+            <thead>
+                <tr><th>Camión</th><th>Ubicación</th><th>Razón</th><th></th></tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+
+        <br>
+
+        <!-- Indicadores de camiones -->
+        <h3>Indicadores</h3>
+
+        <div class="form-grid-4">
+            <div>
+                <label>Camiones operativos</label>
+                <input type="number" id="camOper" value="0">
+            </div>
+            <div>
+                <label>Camiones DOWN</label>
+                <input type="number" id="camDown" value="0">
+            </div>
+            <div>
+                <label>Equipos livianos</label>
+                <input type="number" id="livianos" value="0">
+            </div>
+            <div>
+                <label>Livianos DOWN</label>
+                <input type="number" id="livDown" value="0">
+            </div>
+        </div>
+
+    </section>
+
+    <!-- 3. SEGURIDAD -->
+    <section id="tab-seguridad" class="tab-content">
+        <h2>Seguridad</h2>
+
+        <label>Observación de seguridad</label>
+        <textarea id="segObs"></textarea>
+
+        <label>Lugar</label>
+        <input type="text" id="segLugar">
+
+        <label>N° Hallazgos</label>
+        <input type="number" id="segHallazgos" min="0">
+
+        <label>¿Se divulgó?</label>
+        <select id="segDiv">
+            <option value="SI">SI</option>
+            <option value="NO">NO</option>
+        </select>
+
+    </section>
+
+    <!-- 4. OBSERVACIONES -->
+    <section id="tab-observ" class="tab-content">
+        <h2>Observaciones / Comentarios</h2>
+
+        <textarea id="observaciones" rows="6"></textarea>
+    </section>
+
+    <!-- 5. RESUMEN -->
+    <section id="tab-resumen" class="tab-content">
+        <h2>Resumen / Firma</h2>
+
+        <label class="check">
+            <input type="checkbox" id="confirmo"> Certifico que la información es correcta.
+        </label>
+
+        <div class="acciones">
+            <button class="btn-primary" onclick="guardarReporte()">Guardar</button>
+            <button class="btn-warning" onclick="nuevoDia()">Nuevo día</button>
+        </div>
+
+        <div class="export-area">
+            <button onclick="imprimir()">🖨 Imprimir</button>
+            <button onclick="exportPDF()">📄 PDF</button>
+            <button onclick="exportJPG()">🖼 JPG</button>
+            <button onclick="exportExcel()">📊 Excel</button>
+            <button onclick="exportCSV()">📑 CSV</button>
+            <button onclick="exportJSON()">{} JSON</button>
+        </div>
+
+        <div id="previewContainer"></div>
+    </section>
+
+    <!-- SCRIPT PRINCIPAL -->
+    <script src="config.js"></script>
+    <script src="script.js"></script>
+
+    <script src="es.json"></script>
+<script src="en.json"></script>
+<script src="config.js"></script>
+<script src="script.js"></script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+
+</body>
+</html>
